@@ -2321,12 +2321,17 @@ typedef void (^PBJVisionBlock)();
         if ([notification object] == _captureSession) {
             NSError *error = [[notification userInfo] objectForKey:AVCaptureSessionErrorKey];
             if (error) {
+                BOOL restartPreview = YES;
+                if ([_delegate respondsToSelector:@selector(visionSessionRuntimeErrorShouldRetry:error:)]) {
+                    restartPreview = [_delegate visionSessionRuntimeErrorShouldRetry:self error:error];
+                }
+                
                 switch ([error code]) {
                     case AVErrorMediaServicesWereReset:
                     {
                         DLog(@"error media services were reset");
                         [self _destroyCamera];
-                        if (_flags.previewRunning)
+                        if (_flags.previewRunning && restartPreview)
                             [self startPreview];
                         break;
                     }
@@ -2339,7 +2344,7 @@ typedef void (^PBJVisionBlock)();
                     {
                         DLog(@"error media services failed, error (%@)", error);
                         [self _destroyCamera];
-                        if (_flags.previewRunning)
+                        if (_flags.previewRunning && restartPreview)
                             [self startPreview];
                         break;
                     }

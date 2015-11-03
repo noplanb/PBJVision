@@ -21,7 +21,7 @@
 //  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//  FOOO****
+//
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -259,6 +259,8 @@ static CGFloat const PBJVideoBitRate1280x750 = 5000000 * 8;
 
 - (void)visionSessionWasInterrupted:(PBJVision *)vision;
 - (void)visionSessionInterruptionEnded:(PBJVision *)vision;
+
+- (BOOL)visionSessionRuntimeErrorShouldRetry:(PBJVision *)vision error:(NSError*)error;
 
 // device / mode / format
 
